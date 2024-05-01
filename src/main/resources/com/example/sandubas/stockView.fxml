@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1845.0" style="-fx-background-color: transparent;" stylesheets="@stockView.css" type="VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.StockController">
+   <children>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" prefHeight="50.0" prefWidth="168.0" text="Estoque">
+                     <font>
+                        <Font name="Arial Bold" size="42.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelQuantityItems" alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="426.0" text="0 itens cadastrados" textFill="#434f5f">
+                     <font>
+                        <Font name="Arial" size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="86.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true" />
+                  <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="280.0">
+                     <children>
+                        <Label prefHeight="34.0" prefWidth="280.0" text="Nome do usuário" VBox.vgrow="SOMETIMES">
+                           <font>
+                              <Font name="System Bold" size="23.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="11.0" prefWidth="280.0" text="emal@email.com" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </HBox>
+         </children>
+      </HBox>
+      <ToolBar prefHeight="100.0" prefWidth="1745.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+        <items>
+            <TextField maxWidth="500.0" prefHeight="70.0" prefWidth="400.0" promptText="Nome ou código" style="-fx-background-radius: 10;">
+               <font>
+                  <Font name="Arial Bold Italic" size="20.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </TextField>
+          <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" prefWidth="169.0" style="-fx-background-color: transparent;" text="Filtros">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+               <font>
+                  <Font name="Arial Bold" size="25.0" />
+               </font>
+            </Button>
+            <Pane prefHeight="80.0" prefWidth="720.0" />
+            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="70.0" style="-fx-background-color: transparent;" text="Categorias">
+               <graphic>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+               <padding>
+                  <Insets right="25.0" />
+               </padding>
+            </Button>
+            <Button fx:id="btNewProduct" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onBtNewProduct" prefHeight="70.0" prefWidth="206.0" style="-fx-background-color: #FF944E; -fx-background-radius: 10;" text="+ Produto" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="25.0" />
+               </font>
+            </Button>
+        </items>
+         <padding>
+            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+         </padding>
+      </ToolBar>
+      <HBox minHeight="100.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: transparent;" />
+      <TableView fx:id="tableViewProduct" editable="true" focusTraversable="false" prefHeight="780.0" prefWidth="1745.0" tableMenuButtonVisible="true">
+        <columns>
+          <TableColumn fx:id="tableColumnName" editable="false" maxWidth="1745.0" minWidth="200.0" prefWidth="890.0" text="Produto" />
+          <TableColumn fx:id="tableColumnId" editable="false" maxWidth="207.0" minWidth="50.0" prefWidth="200.0" text="Código" />
+            <TableColumn fx:id="tableColumnDescription" editable="false" maxWidth="207.0" minWidth="50.0" prefWidth="200.0" text="Descrição" />
+            <TableColumn fx:id="tableColumnQuantity" editable="false" maxWidth="207.0" minWidth="50.0" prefWidth="200.0" text="Quantidade" />
+            <TableColumn fx:id="tableColumnPrice" editable="false" maxWidth="207.0" minWidth="50.0" prefWidth="200.0" text="Preço" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+   <padding>
+      <Insets left="50.0" right="50.0" />
+   </padding>
+</fx:root>

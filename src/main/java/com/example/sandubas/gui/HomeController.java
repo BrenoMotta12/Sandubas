@@ -1,13 +1,18 @@
 package com.example.sandubas.gui;
 
+import com.example.sandubas.Main;
+import com.example.sandubas.gui.util.Alerts;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,13 +22,14 @@ public class HomeController implements Initializable {
     private ImageView openSideBar, closeSideBar;
 
     @FXML
-    private AnchorPane drawerPane;
+    private AnchorPane drawerPane, paneScreens;
 
     @FXML
-    private Button btStock;
+    private Button btPaneStock, btPaneReports;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), drawerPane);
         translateTransition.setByX(-600);
@@ -41,13 +47,34 @@ public class HomeController implements Initializable {
             closeSideBar.setVisible(false);
             transition(-600);
         });
+        btPaneStock.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 1) {
+                try {
+                    Main.loadRootPaneStock();
+                    paneScreens.getChildren().clear();
+                    paneScreens.getChildren().add(Main.getRootPaneStock());
+
+                } catch (IOException ex) {
+                    Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+                }
+            }
+        });
+
+        btPaneReports.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 1) {
+                try {
+                    Main.loadRootPaneReports();
+                    paneScreens.getChildren().clear();
+                    paneScreens.getChildren().add(Main.getRootPaneReports());
+
+                } catch (IOException ex) {
+                    Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+                }
+            }
+        });
     }
 
 
-    @FXML
-    private void onBtStockAction() {
-        System.out.println("Cliquei");
-    }
 
     private void transition(int direction) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), drawerPane);
