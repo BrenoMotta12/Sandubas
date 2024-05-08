@@ -1,7 +1,9 @@
 package com.example.sandubas;
 
+import com.example.sandubas.gui.ProductRegisterController;
 import com.example.sandubas.gui.StockController;
 import com.example.sandubas.gui.util.Alerts;
+import com.example.sandubas.model.Product;
 import com.example.sandubas.services.remote.ProductService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -61,9 +63,9 @@ public class Main extends Application {
             controller.updateTableView();
 
         } catch (IOException ex) {
-            Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            Alerts.showAlert("IO Exception", "Error loading stock view", ex.getMessage(), Alert.AlertType.ERROR);
         } catch (InterruptedException ex) {
-            Alerts.showAlert("Interrupted Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            Alerts.showAlert("Interrupted Exception", "Error loading stock view", ex.getMessage(), Alert.AlertType.ERROR);
         }
     }
     public static void loadRootPaneReports() throws IOException {
@@ -76,7 +78,7 @@ public class Main extends Application {
         }
     }
 
-    public static void loadDialogForm(String absoluteName, Stage parentStage) throws IOException {
+    public static void loadDialogForm(Product product, String absoluteName, Stage parentStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(absoluteName));
         Pane pane = fxmlLoader.load();
         Stage dialogStage = new Stage();
@@ -90,6 +92,10 @@ public class Main extends Application {
             dialogStage.setY(event.getScreenY() - y);
         });
 
+        ProductRegisterController controller = fxmlLoader.getController();
+        controller.setProduct(product);
+        controller.updateFormData();
+        controller.setProductService(new ProductService());
 
         dialogStage.setTitle("Novo Produto");
         dialogStage.setScene(new Scene(pane));

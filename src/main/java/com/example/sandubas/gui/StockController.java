@@ -9,11 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -50,9 +48,10 @@ public class StockController implements Initializable {
     public void onBtNewProduct(ActionEvent event) {
         try {
             Stage parentStage = Utils.currentStage(event);
-            Main.loadDialogForm("productRegisterForm.fxml", parentStage);
+            Product product = new Product();
+            Main.loadDialogForm(product, "productRegisterForm.fxml", parentStage);
         } catch (IOException ex) {
-            Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            Alerts.showAlert("IO Exception", "Error loading form view", ex.getMessage(), Alert.AlertType.ERROR);
         }
     }
     private void initializeNodes() {

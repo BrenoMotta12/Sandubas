@@ -26,7 +26,7 @@ public class Api {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(URLBase + "products")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+            System.out.println(response.body());
             ObjectMapper mapper = new ObjectMapper();
             list = mapper.readValue(response.body(), new TypeReference<List<Product>>() {});
             return list;
@@ -34,6 +34,47 @@ public class Api {
             Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
             System.out.println(ex.getMessage());
             return list;
+        }
+    }
+
+    public static void insert(Product product) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonProduct = mapper.writeValueAsString(product);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(URLBase + "products"))
+                    .header("Content-Type", "application/json") // Definir o tipo de conteúdo como JSON
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonProduct))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // Imprimir a resposta
+            System.out.println(response.body());
+
+        } catch (Exception ex) {
+            Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            System.out.println(ex.getMessage());
+        }
+    }
+    public static void update (Product product) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonProduct = mapper.writeValueAsString(product);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(URLBase + "products/" + product.getId()))
+                    .header("Content-Type", "application/json") // Definir o tipo de conteúdo como JSON
+                    .PUT(HttpRequest.BodyPublishers.ofString(jsonProduct))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            // Imprimir a resposta
+            System.out.println(response.body());
+
+        } catch (Exception ex) {
+            Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            System.out.println(ex.getMessage());
         }
     }
 }

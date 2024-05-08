@@ -37,7 +37,7 @@ public class Product {
     }
 
     @JsonProperty("description")
-    public void setDescription(String category) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
