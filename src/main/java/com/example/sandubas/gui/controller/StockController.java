@@ -1,6 +1,7 @@
-package com.example.sandubas.gui;
+package com.example.sandubas.gui.controller;
 
 import com.example.sandubas.Main;
+import com.example.sandubas.gui.listener.DataChangeListener;
 import com.example.sandubas.gui.util.Alerts;
 import com.example.sandubas.gui.util.Utils;
 import com.example.sandubas.model.Product;
@@ -19,7 +20,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class StockController implements Initializable {
+public class StockController implements Initializable, DataChangeListener {
 
     @FXML
     private Button btNewProduct;
@@ -44,12 +45,17 @@ public class StockController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeNodes();
     }
+
+    @Override
+    public void onDataChanged() throws IOException, InterruptedException {
+        updateTableView();
+    }
     @FXML
     public void onBtNewProduct(ActionEvent event) {
         try {
             Stage parentStage = Utils.currentStage(event);
             Product product = new Product();
-            Main.loadDialogForm(product, "productRegisterForm.fxml", parentStage);
+            Main.loadDialogForm(this, product, "productRegisterForm.fxml", parentStage);
         } catch (IOException ex) {
             Alerts.showAlert("IO Exception", "Error loading form view", ex.getMessage(), Alert.AlertType.ERROR);
         }
@@ -75,5 +81,6 @@ public class StockController implements Initializable {
         // METODO PARA SETAR A INSTANCIA SERVIÇO QUE BUSCA OS PRODUTOS
         this.productService = productService;
     }
+
 
 }

@@ -1,7 +1,8 @@
 package com.example.sandubas;
 
-import com.example.sandubas.gui.ProductRegisterController;
-import com.example.sandubas.gui.StockController;
+import com.example.sandubas.gui.controller.ProductRegisterFormController;
+import com.example.sandubas.gui.controller.StockController;
+import com.example.sandubas.gui.listener.DataChangeListener;
 import com.example.sandubas.gui.util.Alerts;
 import com.example.sandubas.model.Product;
 import com.example.sandubas.services.remote.ProductService;
@@ -78,7 +79,7 @@ public class Main extends Application {
         }
     }
 
-    public static void loadDialogForm(Product product, String absoluteName, Stage parentStage) throws IOException {
+    public static void loadDialogForm(DataChangeListener listener, Product product, String absoluteName, Stage parentStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(absoluteName));
         Pane pane = fxmlLoader.load();
         Stage dialogStage = new Stage();
@@ -92,8 +93,9 @@ public class Main extends Application {
             dialogStage.setY(event.getScreenY() - y);
         });
 
-        ProductRegisterController controller = fxmlLoader.getController();
+        ProductRegisterFormController controller = fxmlLoader.getController();
         controller.setProduct(product);
+        controller.subscribeDataChangeListener(listener);
         controller.updateFormData();
         controller.setProductService(new ProductService());
 

@@ -1,5 +1,6 @@
-package com.example.sandubas.gui;
+package com.example.sandubas.gui.controller;
 
+import com.example.sandubas.gui.listener.DataChangeListener;
 import com.example.sandubas.gui.util.Constraints;
 import com.example.sandubas.gui.util.Utils;
 import com.example.sandubas.model.Product;
@@ -7,18 +8,22 @@ import com.example.sandubas.services.remote.ProductService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.net.URL;
-import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class ProductRegisterController implements Initializable {
+public class ProductRegisterFormController implements Initializable {
 
     private Product entity;
     private ProductService service;
+    private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
     // Inputs
     @FXML
@@ -49,9 +54,10 @@ public class ProductRegisterController implements Initializable {
     private Button btCancel;
 
     @FXML
-    private void onBtSaveAction(ActionEvent event) {
+    private void onBtSaveAction(ActionEvent event) throws IOException, InterruptedException {
         entity = getFormData();
         service.saveOrUpdate(entity);
+        notifyDataChangeListeners();
         Utils.currentStage(event).close();
     }
 
@@ -75,9 +81,15 @@ public class ProductRegisterController implements Initializable {
     public void setProduct(Product entity) {
         this.entity = entity;
     }
+
     public void setProductService(ProductService service) {
         this.service = service;
     }
+
+    public void subscribeDataChangeListener(DataChangeListener listener) {
+        dataChangeListeners.add(listener);
+    }
+
     public void updateFormData() {
         if (entity == null) {
             throw new IllegalStateException("Entity was null");
@@ -100,5 +112,11 @@ public class ProductRegisterController implements Initializable {
 
 
         return formData;
+    }
+
+    private void notifyDataChangeListeners() throws IOException, InterruptedException {
+        for (DataChangeListener listener : dataChangeListeners) {
+            listener.onDataChanged();
+        }
     }
 }

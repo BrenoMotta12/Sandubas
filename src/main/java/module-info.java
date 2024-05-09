@@ -9,8 +9,8 @@ module com.example.sandubas {
 
     opens com.example.sandubas to javafx.fxml;
     exports com.example.sandubas;
-    exports com.example.sandubas.gui;
     exports com.example.sandubas.model;
-    opens com.example.sandubas.gui to javafx.fxml;
     opens com.example.sandubas.model to javafx.base;
+    exports com.example.sandubas.gui.controller;
+    opens com.example.sandubas.gui.controller to javafx.fxml;
 }

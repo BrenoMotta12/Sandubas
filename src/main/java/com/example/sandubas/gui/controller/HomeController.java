@@ -1,4 +1,4 @@
-package com.example.sandubas.gui;
+package com.example.sandubas.gui.controller;
 
 import com.example.sandubas.Main;
 import com.example.sandubas.gui.util.Alerts;

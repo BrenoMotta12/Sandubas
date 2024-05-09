@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1845.0" style="-fx-background-color: transparent;" stylesheets="@stockView.css" type="VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.StockController">
+<fx:root alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1845.0" style="-fx-background-color: transparent;" stylesheets="@stockView.css" type="VBox" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.controller.StockController">
    <children>
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
