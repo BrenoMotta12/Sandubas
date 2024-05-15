@@ -20,4 +20,8 @@ public class ProductService {
             Api.update(product);
         }
     }
+
+    public void remove (Product product) {
+        Api.delete(product.getId());
+    }
 }

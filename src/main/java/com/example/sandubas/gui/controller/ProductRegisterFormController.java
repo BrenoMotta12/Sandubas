@@ -4,6 +4,7 @@ import com.example.sandubas.gui.listener.DataChangeListener;
 import com.example.sandubas.gui.util.Constraints;
 import com.example.sandubas.gui.util.Utils;
 import com.example.sandubas.model.Product;
+import com.example.sandubas.model.exceptions.ValidationException;
 import com.example.sandubas.services.remote.ProductService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +16,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ProductRegisterFormController implements Initializable {
 
@@ -25,6 +24,8 @@ public class ProductRegisterFormController implements Initializable {
     private ProductService service;
     private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
+    @FXML
+    private Label labelTitle;
     // Inputs
     @FXML
     private TextField txtId;
@@ -53,12 +54,18 @@ public class ProductRegisterFormController implements Initializable {
     @FXML
     private Button btCancel;
 
+
     @FXML
     private void onBtSaveAction(ActionEvent event) throws IOException, InterruptedException {
-        entity = getFormData();
-        service.saveOrUpdate(entity);
-        notifyDataChangeListeners();
-        Utils.currentStage(event).close();
+        try {
+            entity = getFormData();
+            service.saveOrUpdate(entity);
+            notifyDataChangeListeners();
+            Utils.currentStage(event).close();
+
+        } catch (ValidationException ex) {
+            setErrorMessages(ex.getErrors());
+        }
     }
 
     @FXML
@@ -72,6 +79,9 @@ public class ProductRegisterFormController implements Initializable {
     }
 
     private void initializeNodes() {
+        txtId.setDisable(true);
+
+
         Constraints.setTextFieldInteger(txtQuantity);
         Constraints.setTextFieldDouble(txtPrice);
         Constraints.setTextFieldMaxLength(txtName, 30);
@@ -91,9 +101,17 @@ public class ProductRegisterFormController implements Initializable {
     }
 
     public void updateFormData() {
+        if (entity.getId() != null) {
+            labelTitle.setText("Edição do Produto");
+        } else {
+            labelTitle.setText("Novo Produto");
+        }
         if (entity == null) {
             throw new IllegalStateException("Entity was null");
         } else {
+            if (entity.getId() != null) {
+                txtId.setText(String.valueOf(entity.getId()));
+            }
             txtName.setText(entity.getName());
             txtDescription.setText(entity.getDescription());
             txtPrice.setText(String.valueOf(entity.getPrice()));
@@ -103,13 +121,22 @@ public class ProductRegisterFormController implements Initializable {
     }
 
     private Product getFormData() {
+        ValidationException exception= new ValidationException("Validation error");
         Product formData = new Product();
+
+        if (txtName.getText() == null || txtName.getText().trim().equals("")) {
+            exception.addError("name", "O campo não pode ser vazio.");
+        } else {
+            formData.setName(txtName.getText());
+        }
         formData.setId(Utils.tryParseToInt(txtId.getText()));
-        formData.setName(txtName.getText());
         formData.setDescription(txtDescription.getText());
         formData.setPrice(Utils.tryParseToDouble(txtPrice.getText()));
         formData.setQuantity(Utils.tryParseToInt(txtQuantity.getText()));
 
+        if (exception.getErrors().size() > 0) {
+            throw exception;
+        }
 
         return formData;
     }
@@ -117,6 +144,14 @@ public class ProductRegisterFormController implements Initializable {
     private void notifyDataChangeListeners() throws IOException, InterruptedException {
         for (DataChangeListener listener : dataChangeListeners) {
             listener.onDataChanged();
+        }
+    }
+
+    private void setErrorMessages(Map<String, String> errors) {
+        Set<String> fields = errors.keySet();
+
+        if(fields.contains("name")) {
+            labelErrorName.setText(errors.get("name"));
         }
     }
 }

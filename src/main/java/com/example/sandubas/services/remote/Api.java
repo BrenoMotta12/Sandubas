@@ -77,4 +77,22 @@ public class Api {
             System.out.println(ex.getMessage());
         }
     }
+
+    public static void delete(int productId) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(URLBase + "products/" + productId))
+                    .DELETE()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.body());
+
+        } catch (Exception ex) {
+            Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
+            System.out.println(ex.getMessage());
+        }
+    }
 }

@@ -48,7 +48,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("home.fxml"));
         fxmlLoader.setRoot(new AnchorPane());
         mainScene = new Scene(fxmlLoader.load());
-        stage.setFullScreen(true);
+        stage.setMaximized(true);
         stage.setTitle("Sandubas");
         stage.setScene(mainScene);
         stage.show();
