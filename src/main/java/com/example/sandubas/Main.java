@@ -1,6 +1,7 @@
 package com.example.sandubas;
 
 import com.example.sandubas.gui.controller.ProductRegisterFormController;
+import com.example.sandubas.gui.controller.ReportsController;
 import com.example.sandubas.gui.controller.StockController;
 import com.example.sandubas.gui.listener.DataChangeListener;
 import com.example.sandubas.gui.util.Alerts;
@@ -59,9 +60,9 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("stockView.fxml"));
             fxmlLoader.setRoot(new VBox());
             rootPaneStock = fxmlLoader.load();
-            StockController controller = fxmlLoader.getController();
-            controller.setProductService(new ProductService());
-            controller.updateTableView();
+            StockController stockController = fxmlLoader.getController();
+            stockController.setProductService(new ProductService());
+            stockController.updateTableView();
 
         } catch (IOException ex) {
             Alerts.showAlert("IO Exception", "Error loading stock view", ex.getMessage(), Alert.AlertType.ERROR);
@@ -73,6 +74,8 @@ public class Main extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reportsView.fxml"));
             rootPaneReports = fxmlLoader.load();
+            ReportsController reportsController = fxmlLoader.getController();
+            reportsController.setProductService(new ProductService());
 
         } catch (IOException ex) {
             Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);

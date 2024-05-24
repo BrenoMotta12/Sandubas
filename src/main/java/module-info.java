@@ -13,4 +13,5 @@ module com.example.sandubas {
     opens com.example.sandubas.model to javafx.base;
     exports com.example.sandubas.gui.controller;
     opens com.example.sandubas.gui.controller to javafx.fxml;
+    exports com.example.sandubas.services.remote;
 }

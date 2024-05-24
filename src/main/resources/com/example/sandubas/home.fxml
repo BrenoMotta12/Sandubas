@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="1080.0" maxWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #E4E4E4;" type="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.controller.HomeController">
+<fx:root maxHeight="1080.0" maxWidth="1920.0" prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #E4E4E4;" type="AnchorPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.controller.HomeController">
    <children>
       <AnchorPane fx:id="paneScreens" layoutX="84.0" layoutY="204.0" prefHeight="1080.0" prefWidth="1836.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -56,7 +56,7 @@
                         </ImageView>
                      </children>
                   </Pane>
-                  <ImageView fitHeight="40.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="iconStock" fitHeight="40.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/ic_stock.png" />
                      </image>
@@ -64,7 +64,7 @@
                         <Insets bottom="30.0" top="30.0" />
                      </VBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="iconReports" fitHeight="40.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/ic_reports.png" />
                      </image>

@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1845.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.controller.ReportsController">
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sandubas.gui.controller.ReportsController">
    <children>
-      <Label text="Reports">
-         <font>
-            <Font size="64.0" />
-         </font>
-      </Label>
+      <AnchorPane layoutX="76.0" layoutY="70.0" maxHeight="1080.0" maxWidth="1920.0" minHeight="732.0" minWidth="1434.0" prefHeight="732.0" prefWidth="1434.0" style="-fx-background-color: white; -fx-background-radius: 10;" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <BarChart fx:id="barChartProducts" alternativeColumnFillVisible="true" layoutX="64.0" layoutY="50.0" prefHeight="288.0" prefWidth="883.0" title="QUANTIDADE EM ESTOQUE" AnchorPane.bottomAnchor="532.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="760.0" AnchorPane.topAnchor="50.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxisQuantity" />
+                </yAxis>
+            </BarChart>
+            <PieChart fx:id="pieChartProductDistribution" layoutX="777.0" layoutY="278.0" prefHeight="380.0" prefWidth="422.0" title="DISTRIBUIÇÃO DOS PRODUTOS POR NÍVEL DE ESTOQUE" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="1000.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="150.0" />
+            <BarChart fx:id="barChartTotalValueProducts" layoutX="98.0" layoutY="368.0" prefHeight="442.0" prefWidth="880.0" title="VALOR TOTAL DOS PRODUTOS EM ESTOQUE" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="760.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                  <NumberAxis fx:id="yAxisTotalValue" />
+              </yAxis>
+            </BarChart>
+         </children>
+      </AnchorPane>
    </children>
-</VBox>
+</AnchorPane>

@@ -9,6 +9,8 @@ import com.example.sandubas.services.remote.ProductService;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,9 +47,12 @@ public class StockController implements Initializable, DataChangeListener {
 
     @FXML
     private Label labelQuantityItems;
+    @FXML
+    private TextField filterField;
 
     private ProductService productService;
     private ObservableList<Product> products;
+    private FilteredList<Product> filteredList;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,34 +81,47 @@ public class StockController implements Initializable, DataChangeListener {
         tableColumnDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         tableColumnQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         tableColumnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tableViewProduct.setTableMenuButtonVisible(false);
     }
 
     public void updateTableView() throws IOException, InterruptedException {
-        // METODO PARA ATUALIZAR A TABELA DE PRODUTOS
         if (productService == null) {
             throw new IllegalStateException("Service was null");
         }
         List<Product> list = productService.findAll();
         products = FXCollections.observableArrayList(list);
-        tableViewProduct.setItems(products);
+
+        filteredList = new FilteredList<>(products, b -> true);
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(product -> {
+                if (newValue.isEmpty() || newValue.isBlank()) {
+                    return true;
+                }
+                String searchKeyword = newValue.toLowerCase();
+                if (product.getName().toLowerCase().contains(searchKeyword)) {
+                    return true;
+                }  else if (product.getId().toString().contains(searchKeyword)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Product> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(tableViewProduct.comparatorProperty());
+        tableViewProduct.setItems(sortedList);
         labelQuantityItems.setText(products.size() + " itens cadastrados");
         initEditButtons(this);
         initRemoveButtons();
     }
 
     public void setProductService(ProductService productService) {
-        // METODO PARA SETAR A INSTANCIA SERVIÇO QUE BUSCA OS PRODUTOS
         this.productService = productService;
     }
-
 
     private void initEditButtons(DataChangeListener listener) {
         tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnEDIT.setCellFactory(param -> new TableCell<Product, Product>() {
-
             private final Button button = new Button("EDITAR");
-            private final Button button2 = new Button("EDITAR");
-            private final Button button3 = new Button("EDITAR");
 
             @Override
             protected void updateItem(Product obj, boolean empty) {
@@ -113,14 +131,13 @@ public class StockController implements Initializable, DataChangeListener {
                     return;
                 }
                 setGraphic(button);
-                button.setOnAction(
-                    event -> {
-                        try {
-                            Main.loadDialogForm(listener, obj, "productRegisterForm.fxml", Utils.currentStage(event));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                button.setOnAction(event -> {
+                    try {
+                        Main.loadDialogForm(listener, obj, "productRegisterForm.fxml", Utils.currentStage(event));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         });
     }
@@ -129,6 +146,7 @@ public class StockController implements Initializable, DataChangeListener {
         tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnREMOVE.setCellFactory(param -> new TableCell<Product, Product>() {
             private final Button button = new Button("EXCLUIR");
+
             @Override
             protected void updateItem(Product obj, boolean empty) {
                 super.updateItem(obj, empty);
@@ -142,8 +160,8 @@ public class StockController implements Initializable, DataChangeListener {
         });
     }
 
-    private void removeEntity (Product obj) {
-        Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Tem certeza que deseja deletar o produto " + obj.getId() + "?");
+    private void removeEntity(Product obj) {
+        Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Tem certeza que deseja deletar o produto " + obj.getName() + "?");
 
         if (result.get() == ButtonType.OK) {
             try {
@@ -154,5 +172,4 @@ public class StockController implements Initializable, DataChangeListener {
             }
         }
     }
-
 }
