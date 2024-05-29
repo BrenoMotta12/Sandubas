@@ -34,6 +34,9 @@ public class HomeController implements Initializable {
     @FXML
     private ImageView iconStock;
 
+    @FXML
+    private ImageView imageWelcome;
+
     // Carregar as imagens
     private final Image stockIcon = new Image(getClass().getResourceAsStream("/com/example/sandubas/images/ic_stock.png"));
     private final Image stockIconSelected = new Image(getClass().getResourceAsStream("/com/example/sandubas/images/ic_stock_selected.png"));
@@ -68,6 +71,7 @@ public class HomeController implements Initializable {
                     paneScreens.getChildren().add(Main.getRootPaneStock());
                     closeSideBar();
                     updateIconSelection(iconStock);
+                    imageWelcome.setVisible(false);
                 } catch (IOException ex) {
                     Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
                 }
@@ -82,6 +86,7 @@ public class HomeController implements Initializable {
                     paneScreens.getChildren().add(Main.getRootPaneReports());
                     closeSideBar();
                     updateIconSelection(iconReports);
+                    imageWelcome.setVisible(false);
                 } catch (IOException ex) {
                     Alerts.showAlert("IO Exception", "Error loading view", ex.getMessage(), Alert.AlertType.ERROR);
                 }

@@ -1,5 +1,6 @@
 package com.example.sandubas;
 
+import com.example.sandubas.gui.controller.HomeController;
 import com.example.sandubas.gui.controller.ProductRegisterFormController;
 import com.example.sandubas.gui.controller.ReportsController;
 import com.example.sandubas.gui.controller.StockController;
@@ -8,6 +9,7 @@ import com.example.sandubas.gui.util.Alerts;
 import com.example.sandubas.model.Product;
 import com.example.sandubas.services.remote.ProductService;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -116,6 +118,31 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        Thread batchThread = new Thread(() -> {
+            try {
+                // Caminho para o arquivo batch
+                String batchFilePath = "C:/Users/Brenin/Documents/SandubasAPP/init_backend.bat";
+
+                // Cria o ProcessBuilder com o caminho do arquivo batch
+                ProcessBuilder processBuilder = new ProcessBuilder(batchFilePath);
+
+                // Define o diretório de trabalho do processo (opcional)
+                processBuilder.directory(new java.io.File("C:/Users/Brenin/Documents/SandubasAPP"));
+
+                // Inicia o processo
+                processBuilder.start();
+
+            } catch (IOException e) {
+                System.err.println("Exceção ao executar arquivo batch: " + e.getMessage());
+            }
+        });
+
+        // Inicia o thread do batch
+        batchThread.start();
+
+        // Inicia a aplicação JavaFX
         launch();
     }
+
+
 }
